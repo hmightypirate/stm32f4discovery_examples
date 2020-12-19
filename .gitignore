@@ -15,3 +15,6 @@ const_structs.checkpatch
 checkpatch.pl
 libopencm3.rules.mk
 spelling.txt
+.cortex-debug.peripherals.state.json
+.cortex-debug.registers.state.json
+
