@@ -1,5 +1,4 @@
 OBJS = $(filter-out main.o,$(patsubst %.c,%.o,$(wildcard *.c)))
-OBJS += $(patsubst printf/%.c,printf/%.o,$(wildcard printf/*.c))
 OBJS += $(patsubst hal/%.c,hal/%.o,$(wildcard hal/*.c))
 
 
