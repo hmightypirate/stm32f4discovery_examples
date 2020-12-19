@@ -3,9 +3,7 @@
         {
             "name": "gcc",
             "includePath": [
-                "${workspaceFolder}/src",
-                "${workspaceFolder}/src/hal",
-                "${workspaceFolder}/src/printf",
+                "${workspaceFolder}/leds_src/*",
                 "${workspaceFolder}/.opencm3/libopencm3/include"
             ],
             "defines": [

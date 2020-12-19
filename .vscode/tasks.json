@@ -2,12 +2,12 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "Build LEDs example",
+            "label": "Build current example",
             "type": "shell",
             "command": "make",
             "args": [
                 "-C",
-                "leds_src/"
+                "${workspaceFolder}/${relativeFileDirname}"
             ],
             "group": {
                 "kind": "build",
@@ -23,12 +23,12 @@
                 "base": "$gcc",
                 "fileLocation": [
                     "relative",
-                    "${workspaceFolder}/leds_src"
+                    "${workspaceFolder}/${relativeFileDirname}"
                 ]
             }
         },
         {
-            "label": "Clean LEDs example",
+            "label": "Clean current example",
             "type": "shell",
             "command": "make",
             "args": [
@@ -46,7 +46,7 @@
                 "base": "$gcc",
                 "fileLocation": [
                     "relative",
-                    "${workspaceFolder}/leds_src"
+                    "${workspaceFolder}/${relativeFileDirname}"
                 ]
             }
         },
@@ -64,17 +64,17 @@
                 "base": "$gcc",
                 "fileLocation": [
                     "relative",
-                    "${workspaceFolder}/src"
+                    "${workspaceFolder}/.opencm3/libopencm3"
                 ]
             }
         },
         {
-            "label": "Flash LEDs example",
+            "label": "Flash current example",
             "type": "shell",
             "command": "make",
             "args": [
                 "-C",
-                "leds_src/",
+                "${workspaceFolder}/${relativeFileDirname}",
                 "flash"
             ],
             "presentation": {
@@ -82,13 +82,6 @@
                 "reveal": "always",
                 "panel": "shared",
                 "focus": true
-            },
-            "problemMatcher": {
-                "base": "$gcc",
-                "fileLocation": [
-                    "relative",
-                    "${workspaceFolder}/src"
-                ]
             }
         }
     ]
