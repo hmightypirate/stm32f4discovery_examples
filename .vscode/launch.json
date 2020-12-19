@@ -1,0 +1,35 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+
+        {
+            "name": "GDB Stlink v2.1",
+            "type": "cortex-debug",
+            "request": "launch",
+            "cwd": "${workspaceRoot}",
+            "servertype": "openocd",
+            "configFiles": [
+                "interface/stlink-v2-1.cfg",
+                "target/stm32f4x.cfg"
+            ],
+            "executable": "src/main.elf",
+            "runToMain": true,
+            "svdFile": ".vscode/STM32F40x.svd"
+        },
+        {
+            "name": "GDB Black Magic Probe",
+            "type": "cortex-debug",
+            "request": "launch",
+            "cwd": "${workspaceRoot}",
+            "servertype": "bmp",
+            "BMPGDBSerialPort": "/dev/ttyACM0",
+            "executable": "src/main.elf",
+            "runToMain": true,
+            "svdFile": ".vscode/STM32F40x.svd"
+        }
+
+    ]
+}

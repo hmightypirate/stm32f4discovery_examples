@@ -1,0 +1,22 @@
+{
+	"name": "Mighty SDK",
+
+	"context": "..",
+
+	"image": "pcounhago/mighty-sdk:latest",
+	"remoteUser": "mightyteam",
+	"updateRemoteUserUID": false,
+
+	"settings": { 
+		"terminal.integrated.shell.linux": null
+	},
+
+	"extensions": [ 
+		"ms-vscode.cpptools",
+		"marus25.cortex-debug"
+	],
+
+	"runArgs": ["--privileged", "-v", "/dev/:/dev/"],
+
+	// "forwardPorts": [],
+}

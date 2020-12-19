@@ -1,0 +1,95 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Build LEDs example",
+            "type": "shell",
+            "command": "make",
+            "args": [
+                "-C",
+                "leds_src/"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "panel": "shared",
+                "focus": true
+            },
+            "problemMatcher": {
+                "base": "$gcc",
+                "fileLocation": [
+                    "relative",
+                    "${workspaceFolder}/leds_src"
+                ]
+            }
+        },
+        {
+            "label": "Clean LEDs example",
+            "type": "shell",
+            "command": "make",
+            "args": [
+                "-C",
+                "leds_src/",
+                "clean"
+            ],
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "panel": "shared",
+                "focus": true
+            },
+            "problemMatcher": {
+                "base": "$gcc",
+                "fileLocation": [
+                    "relative",
+                    "${workspaceFolder}/leds_src"
+                ]
+            }
+        },
+        {
+            "label": "Build libopencm3",
+            "type": "shell",
+            "command": "scripts/setup_project.sh",
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "panel": "shared",
+                "focus": true
+            },
+            "problemMatcher": {
+                "base": "$gcc",
+                "fileLocation": [
+                    "relative",
+                    "${workspaceFolder}/src"
+                ]
+            }
+        },
+        {
+            "label": "Flash LEDs example",
+            "type": "shell",
+            "command": "make",
+            "args": [
+                "-C",
+                "leds_src/",
+                "flash"
+            ],
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "panel": "shared",
+                "focus": true
+            },
+            "problemMatcher": {
+                "base": "$gcc",
+                "fileLocation": [
+                    "relative",
+                    "${workspaceFolder}/src"
+                ]
+            }
+        }
+    ]
+}
