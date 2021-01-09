@@ -40,7 +40,7 @@ int main(void)
 	  
 	}
 
-	if (consolidated_counter % 750 == 0) {
+	if (consolidated_counter % 1000 == 0) {
 	  led_red_toggle();
 	  
 	}
