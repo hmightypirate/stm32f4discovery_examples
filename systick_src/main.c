@@ -2,14 +2,6 @@
 #include "hal/discovery_leds.h"
 #include "hal/clock.h"
 
-void wait(void);
-void wait(void)
-{
-  for (int i = 0; i < 100; ++i)
-	__asm__("nop");
-}
-
-
 /**
  * @brief Empty main
  */
@@ -23,8 +15,6 @@ int main(void)
   systick_interrupt_enable();
   
   while(1) {
-    wait();
-
     uint32_t led_counter = get_counter();
 
     if (led_counter != consolidated_counter)
