@@ -96,7 +96,7 @@ static void setup_clock(void)
 	rcc_periph_clock_enable(RCC_SPI3);
 
 	/* DMA */
-	rcc_periph_clock_enable(RCC_DMA2);
+	rcc_periph_clock_enable(RCC_DMA1);
 
 	/* Enable clock cycle counter */
 	dwt_enable_cycle_counter();
@@ -110,7 +110,7 @@ static void setup_clock(void)
  *
  * Interruptions enabled:
  *
- * - DMA 2 stream 7 interrupt.
+ * - DMA 1 stream 7 interrupt.
  * - USART2 interrupt.
  *
  * @see Programming Manual (PM0214).
@@ -118,12 +118,12 @@ static void setup_clock(void)
 static void setup_exceptions(void)
 {
 
-  nvic_set_priority(NVIC_DMA2_STREAM5_IRQ, 0);
-  nvic_set_priority(NVIC_DMA2_STREAM7_IRQ, 0);
+  nvic_set_priority(NVIC_DMA1_STREAM5_IRQ, 0);
+  nvic_set_priority(NVIC_DMA1_STREAM7_IRQ, 0);
   nvic_set_priority(NVIC_USART2_IRQ, 0);
   
-  nvic_enable_irq(NVIC_DMA2_STREAM7_IRQ);
-  nvic_enable_irq(NVIC_DMA2_STREAM5_IRQ);
+  nvic_enable_irq(NVIC_DMA1_STREAM7_IRQ);
+  nvic_enable_irq(NVIC_DMA1_STREAM5_IRQ);
   nvic_enable_irq(NVIC_USART2_IRQ);
 
 }
@@ -231,8 +231,6 @@ static void setup_usart(void)
 	usart_set_flow_control(USART2, USART_FLOWCONTROL_NONE);
 	usart_set_mode(USART2, USART_MODE_TX_RX);
 
-	//usart_enable_tx_interrupt(USART2);
-	//usart_enable_rx_interrupt(USART2);
 	usart_enable(USART2);
 
 }
@@ -243,8 +241,8 @@ static void setup_usart(void)
 void setup(void)
 {
 	setup_clock();
-	setup_exceptions();
 	setup_gpio();
 	setup_usart();
 	setup_mpu();
+	setup_exceptions();
 }

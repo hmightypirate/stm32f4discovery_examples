@@ -1,6 +1,7 @@
 #include "hal/setup.h"
 #include "hal/discovery_leds.h"
 #include "hal/mpu.h"
+#include "hal/logging.h"
 #include <libopencm3/stm32/usart.h>
 
 void wait(void);
@@ -31,11 +32,21 @@ int main(void)
     wait(); led_orange_off(); led_red_off(); led_blue_on(); led_green_off();
     wait(); led_orange_off(); led_red_off(); led_blue_off(); led_green_on();
 
-    data = mpu_who_am_i();
-    usart_send_blocking(USART2, control);
-    usart_send_blocking(USART2, data);
-  }
+    wait(); led_orange_on(); led_red_off(); led_blue_off(); led_green_off();
+    wait(); led_orange_on(); led_red_on(); led_blue_off(); led_green_off();
+    wait(); led_orange_on(); led_red_on(); led_blue_on(); led_green_off();
+    wait(); led_orange_on(); led_red_on(); led_blue_on(); led_green_on();
 
+    wait(); led_orange_off(); led_red_on(); led_blue_on(); led_green_on();
+    wait(); led_orange_off(); led_red_off(); led_blue_on(); led_green_on();
+    wait(); led_orange_off(); led_red_off(); led_blue_off(); led_green_on();
+    wait(); led_orange_off(); led_red_off(); led_blue_off(); led_green_off();
+
+    data = mpu_who_am_i();
+    usart_send_blocking(USART2, 0x42);
+    LOG_DATA("[%d, %d]", control, data);
+
+  }
   return 0;
 
 

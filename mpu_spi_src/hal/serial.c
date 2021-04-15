@@ -58,21 +58,21 @@ bool serial_acquire_transfer_lock(void)
  */
 void serial_send(char *data, int size)
 {
-	dma_stream_reset(DMA2, DMA_STREAM7);
+	dma_stream_reset(DMA1, DMA_STREAM7);
 
-	dma_enable_memory_increment_mode(DMA2, DMA_STREAM7);
-	dma_set_peripheral_size(DMA2, DMA_STREAM7, DMA_SxCR_PSIZE_8BIT);
-	dma_set_memory_size(DMA2, DMA_STREAM7, DMA_SxCR_MSIZE_8BIT);
-	dma_set_priority(DMA2, DMA_STREAM7, DMA_SxCR_PL_VERY_HIGH);
-	dma_set_transfer_mode(DMA2, DMA_STREAM7, DMA_SxCR_DIR_MEM_TO_PERIPHERAL);
+	dma_enable_memory_increment_mode(DMA1, DMA_STREAM7);
+	dma_set_peripheral_size(DMA1, DMA_STREAM7, DMA_SxCR_PSIZE_8BIT);
+	dma_set_memory_size(DMA1, DMA_STREAM7, DMA_SxCR_MSIZE_8BIT);
+	dma_set_priority(DMA1, DMA_STREAM7, DMA_SxCR_PL_VERY_HIGH);
+	dma_set_transfer_mode(DMA1, DMA_STREAM7, DMA_SxCR_DIR_MEM_TO_PERIPHERAL);
 
-	dma_set_peripheral_address(DMA2, DMA_STREAM7, (uint32_t)&USART2_DR);
-	dma_set_memory_address(DMA2, DMA_STREAM7, (uint32_t)data);
-	dma_set_number_of_data(DMA2, DMA_STREAM7, size);
+	dma_set_peripheral_address(DMA1, DMA_STREAM7, (uint32_t)&USART2_DR);
+	dma_set_memory_address(DMA1, DMA_STREAM7, (uint32_t)data);
+	dma_set_number_of_data(DMA1, DMA_STREAM7, size);
 
-	dma_enable_transfer_complete_interrupt(DMA2, DMA_STREAM7);
-	dma_channel_select(DMA2, DMA_STREAM7, DMA_SxCR_CHSEL_4);
-	dma_enable_stream(DMA2, DMA_STREAM7);
+	dma_enable_transfer_complete_interrupt(DMA1, DMA_STREAM7);
+	dma_channel_select(DMA1, DMA_STREAM7, DMA_SxCR_CHSEL_7);
+	dma_enable_stream(DMA1, DMA_STREAM7);
 	usart_enable_tx_dma(USART2);
 }
 
@@ -80,55 +80,53 @@ void serial_send(char *data, int size)
 /**
  * @brief Receive data from serial.
  *
- * DMA2 is configured to read from USART2 (Bluetooth) a number `size` of bytes.
+ * DMA1 is configured to read from USART2 (Bluetooth) a number `size` of bytes.
  * It writes all those bytes to `data`.
  *
  * An interruption is generated when the transfer is complete.
  */
 void serial_receive(void)
 {
-  dma_stream_reset(DMA2, DMA_STREAM5);
-  dma_enable_memory_increment_mode(DMA2, DMA_STREAM5);
-  dma_set_peripheral_size(DMA2, DMA_STREAM5, DMA_SxCR_PSIZE_8BIT);
-  dma_set_memory_size(DMA2, DMA_STREAM5, DMA_SxCR_MSIZE_8BIT);
-  dma_set_priority(DMA2, DMA_STREAM5, DMA_SxCR_PL_VERY_HIGH);
-  dma_set_transfer_mode(DMA2, DMA_STREAM5, DMA_SxCR_DIR_PERIPHERAL_TO_MEM);
+  dma_stream_reset(DMA1, DMA_STREAM5);
+  dma_enable_memory_increment_mode(DMA1, DMA_STREAM5);
+  dma_set_peripheral_size(DMA1, DMA_STREAM5, DMA_SxCR_PSIZE_8BIT);
+  dma_set_memory_size(DMA1, DMA_STREAM5, DMA_SxCR_MSIZE_8BIT);
+  dma_set_priority(DMA1, DMA_STREAM5, DMA_SxCR_PL_VERY_HIGH);
+  dma_set_transfer_mode(DMA1, DMA_STREAM5, DMA_SxCR_DIR_PERIPHERAL_TO_MEM);
   
-  //dma_set_peripheral_address(DMA2, DMA_STREAM5, (uint32_t)&USART2_DR);
-  
-  dma_set_peripheral_address(DMA2, DMA_STREAM5, (uint32_t)&USART2_DR);
-  dma_set_memory_address(DMA2, DMA_STREAM5, (uint32_t)receive_buffer);
-  dma_set_number_of_data(DMA2, DMA_STREAM5, RECEIVE_BUFFER_SIZE);
+  dma_set_peripheral_address(DMA1, DMA_STREAM5, (uint32_t)&USART2_DR);
+  dma_set_memory_address(DMA1, DMA_STREAM5, (uint32_t)receive_buffer);
+  dma_set_number_of_data(DMA1, DMA_STREAM5, RECEIVE_BUFFER_SIZE);
 
-  dma_enable_transfer_complete_interrupt(DMA2, DMA_STREAM5);
-  dma_channel_select(DMA2, DMA_STREAM5, DMA_SxCR_CHSEL_4);
-  dma_enable_stream(DMA2, DMA_STREAM5);
+  dma_enable_transfer_complete_interrupt(DMA1, DMA_STREAM5);
+  dma_channel_select(DMA1, DMA_STREAM5, DMA_SxCR_CHSEL_4);
+  dma_enable_stream(DMA1, DMA_STREAM5);
   usart_enable_rx_dma(USART2);
   
 }
 
 
 /**
- * @brief DMA 2 stream 7 interruption routine.
+ * @brief DMA 1 stream 7 interruption routine.
  *
  * Executed on serial transfer complete. Clears the interruption flag, and
  * disables serial transfer DMA until next call to `serial_send()`.
  *
  * It will also release the serial transfer lock.
  */
-void dma2_stream7_isr(void)
+void dma1_stream7_isr(void)
 {
-	if (dma_get_interrupt_flag(DMA2, DMA_STREAM7, DMA_TCIF))
-		dma_clear_interrupt_flags(DMA2, DMA_STREAM7, DMA_TCIF);
+	if (dma_get_interrupt_flag(DMA1, DMA_STREAM7, DMA_TCIF))
+		dma_clear_interrupt_flags(DMA1, DMA_STREAM7, DMA_TCIF);
 
-	dma_disable_transfer_complete_interrupt(DMA2, DMA_STREAM7);
+	dma_disable_transfer_complete_interrupt(DMA1, DMA_STREAM7);
 	usart_disable_tx_dma(USART2);
-	dma_disable_stream(DMA2, DMA_STREAM7);
+	dma_disable_stream(DMA1, DMA_STREAM7);
 	mutex_unlock(&_send_lock);
 }
 
 /**
- * @brief DMA 2 stream 5 interruption routine.
+ * @brief DMA 1 stream 5 interruption routine.
  *
  * Executed on serial receive complete. Clears the interruption flag, and
  * resets the receive DMA by calling `serial_receive()`.
@@ -137,14 +135,14 @@ void dma2_stream7_isr(void)
  * on USART idle line interruption.
  * see streams DMA mapping in section 10.3.3 (channel selection) of stm32f4 reference manual
  **/
-void dma2_stream5_isr(void)
+void dma1_stream5_isr(void)
 {
-	if (dma_get_interrupt_flag(DMA2, DMA_STREAM5, DMA_TCIF))
-		dma_clear_interrupt_flags(DMA2, DMA_STREAM5, DMA_TCIF);
+	if (dma_get_interrupt_flag(DMA1, DMA_STREAM5, DMA_TCIF))
+		dma_clear_interrupt_flags(DMA1, DMA_STREAM5, DMA_TCIF);
 
-	dma_disable_transfer_complete_interrupt(DMA2, DMA_STREAM5);
+	dma_disable_transfer_complete_interrupt(DMA1, DMA_STREAM5);
 	usart_disable_rx_dma(USART2);
-	dma_disable_stream(DMA2, DMA_STREAM5);
+	dma_disable_stream(DMA1, DMA_STREAM5);
 	// LOG_ERROR("Receive buffer is full! Resetting..."); //FIXME: check after making logging functinality
 	serial_receive();
 }
@@ -159,39 +157,13 @@ void dma2_stream5_isr(void)
  */
 void usart2_isr(void)
 {
-//   /* Only execute on idle interrupt */
-//   if (((USART_CR1(USART2) & USART_CR1_IDLEIE) != 0) &&
-//       usart_idle_line_detected(USART2)) {
-//     received = true;
-//     usart_clear_idle_line_detected(USART2);
-//     serial_receive();
-//   }
- 	// static uint8_t data = 'A';
-
-	// /* Check if we were called because of RXNE. */
-	// if (((USART_CR1(USART2) & USART_CR1_RXNEIE) != 0) &&
-	//     ((USART_SR(USART2) & USART_SR_RXNE) != 0)) {
-
-	// 	/* Indicate that we got data. */
-	// 	gpio_toggle(GPIOD, GPIO12);
-
-	// 	/* Retrieve the data from the peripheral. */
-	// 	data = usart_recv(USART2);
-
-	// 	/* Enable transmit interrupt so it sends back the data. */
-	// 	usart_enable_tx_interrupt(USART2);
-	// }
-
-	/* Check if we were called because of TXE. */
-	if (((USART_CR1(USART2) & USART_CR1_TXEIE) != 0) &&
-	    ((USART_SR(USART2) & USART_SR_TXE) != 0)) {
-
-	// 	/* Put data into the transmit register. */
-	// 	usart_send(USART2, data);
-
-	// 	/* Disable the TXE interrupt as we don't need it anymore. */
-	// 	usart_disable_tx_interrupt(USART2);
-	}
+  /* Only execute on idle interrupt */
+  if (((USART_CR1(USART2) & USART_CR1_IDLEIE) != 0) &&
+      usart_idle_line_detected(USART2)) {
+    received = true;
+    usart_clear_idle_line_detected(USART2);
+    serial_receive();
+  }
 }
 
 
