@@ -1,4 +1,5 @@
 #include "lcd_control.h"
+#include "hal/discovery_leds.h"
 
 volatile int8_t step = 0;
 
@@ -10,11 +11,14 @@ volatile int8_t step = 0;
 void loop_hello_world_text(void) {
 
   
+  led_green_on();
   
   ssd1306_init(I2C2, DEFAULT_7bit_OLED_SLAVE_ADDRESS, 128, 32);
 
   step = 1;
   int16_t y = 0;
+
+  led_red_on();
   
   while (1) {
     if (step!=0) {

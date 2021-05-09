@@ -30,6 +30,7 @@
 #define SSD1306_LIBRARY_SSD1306_I2C_H
 
 #include <libopencm3/stm32/i2c.h>
+#include "discovery_leds.h"
 
 #define _swap(a, b) { uint8_t t = a; a = b; b = t; }
 #define _bitSet(x) (1 << (x))

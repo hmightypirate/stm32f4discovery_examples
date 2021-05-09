@@ -96,7 +96,7 @@ static void setup_clock(void)
 	/* GPIOs */
 	rcc_periph_clock_enable(RCC_GPIOD); // DISCOVERY LEDS
 
-	/* Enabling GPIOs */
+	/* Enabling GPIOs SCL y SDA */
 	rcc_periph_clock_enable(RCC_GPIOB);
 
 	/* Set clock for I2C */
@@ -124,9 +124,12 @@ static void setup_gpio(void)
   gpio_clear(GPIOD, GPIO12 | GPIO13 | GPIO14 | GPIO15);
 
   /* I2C SCL and SDA */
-  gpio_mode_setup(GPIOB, GPIO_MODE_AF, GPIO_PUPD_PULLUP,
+  gpio_mode_setup(GPIOB, GPIO_MODE_AF, GPIO_PUPD_NONE, //GPIO_PUPD_PULLUP,
 		  GPIO10 | GPIO11);
 
+  gpio_set_output_options(GPIOB, GPIO_OTYPE_OD, GPIO_OSPEED_50MHZ,
+			  GPIO10 | GPIO11);
+  
   gpio_set_af(GPIOB, GPIO_AF4, GPIO10 | GPIO11);
     
 }
@@ -182,6 +185,8 @@ static void setup_i2c(void)
 {
   i2c_peripheral_disable(I2C2);
 
+  i2c_reset(I2C2);
+  
   /* APB1 is running at 42 MHZ */
   i2c_set_clock_frequency(I2C2, 42); // FIXME: use clock struct?
 
@@ -209,7 +214,7 @@ static void setup_i2c(void)
    * 400kHz => 300ns and 100kHz => 1000ns; 300ns/24ns = 13;
    * Incremented by 1 -> 14.
    */
-  i2c_set_trise(I2C2, 0x0e); // FIXME: check!
+  i2c_set_trise(I2C2, 0x43); //0x0e); // FIXME: check!
 
   /*
    * Enable ACK on I2C

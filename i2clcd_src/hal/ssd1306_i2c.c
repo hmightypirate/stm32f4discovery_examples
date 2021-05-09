@@ -251,8 +251,13 @@ void ssd1306_init(uint32_t i2c, uint8_t address, uint8_t width, uint8_t height) 
   HEIGHT = height;
   screenBufferLength = (uint16_t) (HEIGHT / 8 * WIDTH);
 
+  led_orange_off();
+  
   // now we can and should send a lot commands
   ssd1306_switchOLEDOn(false); // 0xae
+
+  led_orange_on();
+  
   ssd1306_setOscillatorFrequency(0x80);  // D5h 0x80
   ssd1306_setMultiplexRatio(HEIGHT-1);
   ssd1306_setInverse(false); // normal display
