@@ -26,8 +26,11 @@ void loop_hello_world_text(void) {
 	y += step;
 	ssd1306_clear();
 	ssd1306_drawWCharStr(0, y, white, wrapDisplay,
-			     L"This is small sentence" \
-			     "to test the screen with the standard library." \
+			     L"This is a small sentence");
+	
+					       
+			     /*
+			     "to test the screen with the standard library.\n" \
 			     "Lorem fistrum torpedo te va a hasé pupitaa pupita " \
 			     "ese pedazo de a wan fistro se calle ustée por la gloria " \
 			     "de mi madre te voy a borrar el cerito. Amatomaa condemor " \
@@ -37,7 +40,7 @@ void loop_hello_world_text(void) {
 			     "de mi madre amatomaa ahorarr. Mamaar no puedor pecador ese " \
 			     "hombree amatomaa apetecan se calle ustée pecador te va a hasé " \
 			     "pupitaa. Al ataquerl quietooor diodenoo jarl por la gloria de " \
-			     "mi madre diodenoo a peich.");
+			     "mi madre diodenoo a peich.");*/
 
 	ssd1306_refresh();
 	for (uint32_t loop = 0; loop < 1000000; ++loop) {
