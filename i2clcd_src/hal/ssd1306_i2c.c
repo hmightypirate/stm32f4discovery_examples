@@ -33,8 +33,6 @@
 
 #include <string.h>
 #include <stdlib.h>
-#include <pentacom_font.h>
-#include "pentacom_font.h"
 
 
 uint32_t I2C_OLED = I2C2;
@@ -608,3 +606,30 @@ void ssd1306_drawWCharStr(uint8_t x, int8_t y, Color color, WrapType wrType, wch
     curPos += 1;
   } while (symbol != 0x00);
 }
+
+
+void ssd1306_drawWCharIcon(uint8_t x, int8_t y, Color color, WrapType wrType, const FontChar_t *charCur) {
+
+  uint16_t curPos = 0;
+  uint8_t xx = x; int8_t yy = y;
+
+  if ((charCur->size+xx) >= (WIDTH-1))
+      switch (wrType) {
+        case nowrap:
+          return;
+        case wrapDisplay:
+          xx = 0;
+          yy += 8;
+          break;
+        case wrapCoord:
+          xx = x;
+          yy += 8;
+      }
+
+  for (uint8_t i=0; i<charCur->size; i++){
+    uint8_t p = (color==white) ? charCur->l[i]: ~charCur->l[i];
+    ssd1306_drawVPattern(xx,yy, p);
+    xx += 1;
+  }
+}
+      

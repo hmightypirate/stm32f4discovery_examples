@@ -10,7 +10,9 @@ int main(void)
 
   setup();
 
-  loop_hello_world_text();
+  //loop_hello_world_text();
+
+  loop_intro_icon();
 
   return 0;
 }

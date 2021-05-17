@@ -31,6 +31,9 @@
 
 #include <libopencm3/stm32/i2c.h>
 #include "discovery_leds.h"
+#include <pentacom_font.h>
+#include "pentacom_font.h"
+
 
 #define _swap(a, b) { uint8_t t = a; a = b; b = t; }
 #define _bitSet(x) (1 << (x))
@@ -61,7 +64,7 @@
 // Addressing mode
 
 #ifndef DEFAULTBUFFERLENGTH
-#define DEFAULTBUFFERLENGTH 1024
+#define DEFAULTBUFFERLENGTH 1024  // size of internal RAM
 #endif
 
 typedef enum SSD1306_AddressingMode {
@@ -109,12 +112,14 @@ void ssd1306_setPage(uint8_t);
 void ssd1306_setColumn(uint8_t);
 
 // paint commands
+void ssd1306_start(void);
+void ssd1306_stop(void);
 void ssd1306_clear(void);
 void ssd1306_refresh(void);
 void ssd1306_drawPixel(uint8_t x, uint8_t y, Color c, bool directNoRAM);
 void ssd1306_drawVPattern(uint8_t x, int8_t y, uint8_t pattern);
 void ssd1306_drawWCharStr(uint8_t x, int8_t y, Color color, WrapType wrType, wchar_t *str);
-
+void ssd1306_drawWCharIcon(uint8_t x, int8_t y, Color color, WrapType wrType, const FontChar_t *charCur);
 
 
 #endif //SSD1306_LIBRARY_SSD1306_I2C_H
